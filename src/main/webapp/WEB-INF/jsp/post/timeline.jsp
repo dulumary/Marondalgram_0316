@@ -19,7 +19,90 @@
 
 	<div class="container">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
-		<section class="d-flex justify-content-center">
+		<section class="contents d-flex justify-content-center">
+			<!--  타임 라인  -->
+			<div class="timeline">
+				<!-- 입력 박스 -->
+				<div class="input-box border rounded">
+					<textarea rows="4" class="form-control border-0"></textarea>
+					<div class="d-flex justify-content-between mx-2 mb-2">
+						<input type="file">
+						<button type="button" class="btn btn-info btn-sm">업로드</button>
+					</div>
+				</div>
+				<!-- / 입력박스 -->
+				
+				<!-- 게시글 카드 리스트 -->
+				<div class="card-list mt-4">
+					<!--  게시글 카드  -->
+					<div class="card">
+						<div class="d-flex justify-content-between p-2">
+							<div>dulumary</div>
+							<div><i class="bi bi-three-dots"></i></div>
+						</div>
+						<div>
+							<img width="100%" src="https://cdn.pixabay.com/photo/2023/03/18/16/08/mountain-7860877_960_720.jpg">
+						</div>
+						<div class="p-2">
+							<i class="bi bi-heart"></i> 좋아요 11개
+						</div>
+						<div class="p-2">
+							<b>dulumary</b> 녹차 밭 사진이 너무 예뻐요!!
+						</div>
+						
+						<!--  댓글 박스 -->
+						<div class="small">
+							<div class="p-2">댓글</div>
+							
+							<div class="px-2"><b>hagulu</b> 진짜 예쁘네요</div>
+							<div class="px-2"><b>bada</b> 저도 가보고 싶어요</div>
+							
+							<div class="d-flex mt-2">
+								<input type="text" class="form-control">
+								<button type="button" class="btn btn-info">게시</button>
+							</div>
+						</div>
+						<!-- / 댓글 박스 -->
+					</div>
+					<!--  / 게시글 카드 -->
+					
+					<!--  게시글 카드  -->
+					<div class="card mt-3">
+						<div class="d-flex justify-content-between p-2">
+							<div>dulumary</div>
+							<div><i class="bi bi-three-dots"></i></div>
+						</div>
+						<div>
+							<img width="100%" src="https://cdn.pixabay.com/photo/2023/03/18/16/08/mountain-7860877_960_720.jpg">
+						</div>
+						<div class="p-2">
+							<i class="bi bi-heart"></i> 좋아요 11개
+						</div>
+						<div class="p-2">
+							<b>dulumary</b> 녹차 밭 사진이 너무 예뻐요!!
+						</div>
+						
+						<!--  댓글 박스 -->
+						<div class="small">
+							<div class="p-2">댓글</div>
+							
+							<div class="px-2"><b>hagulu</b> 진짜 예쁘네요</div>
+							<div class="px-2"><b>bada</b> 저도 가보고 싶어요</div>
+							
+							<div class="d-flex mt-2">
+								<input type="text" class="form-control">
+								<button type="button" class="btn btn-info">게시</button>
+							</div>
+						</div>
+						<!-- / 댓글 박스 -->
+					</div>
+					<!--  / 게시글 카드 -->
+					
+				</div>
+				<!-- / 게시글 카드 리스트 -->
+			
+			</div>
+			<!-- / 타임 라인  -->
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp" />
 	
