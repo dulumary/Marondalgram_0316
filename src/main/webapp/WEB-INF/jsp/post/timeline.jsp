@@ -24,30 +24,32 @@
 			<div class="timeline">
 				<!-- 입력 박스 -->
 				<div class="input-box border rounded">
-					<textarea rows="4" class="form-control border-0"></textarea>
+					<textarea rows="4" class="form-control border-0" id="contentInput"></textarea>
 					<div class="d-flex justify-content-between mx-2 mb-2">
-						<input type="file">
-						<button type="button" class="btn btn-info btn-sm">업로드</button>
+						<i id="imageIcon" class="bi bi-card-image image-icon-size"></i>
+						<input type="file" id="fileInput" class="d-none">
+						<button type="button" class="btn btn-info btn-sm" id="uploadBtn" >업로드</button>
 					</div>
 				</div>
 				<!-- / 입력박스 -->
 				
 				<!-- 게시글 카드 리스트 -->
 				<div class="card-list mt-4">
+					<c:forEach var="post" items="${postList }" >
 					<!--  게시글 카드  -->
-					<div class="card">
+					<div class="card mt-3">
 						<div class="d-flex justify-content-between p-2">
-							<div>dulumary</div>
+							<div>${post.loginId }</div>
 							<div><i class="bi bi-three-dots"></i></div>
 						</div>
 						<div>
-							<img width="100%" src="https://cdn.pixabay.com/photo/2023/03/18/16/08/mountain-7860877_960_720.jpg">
+							<img width="100%" src="${post.imagePath }">
 						</div>
 						<div class="p-2">
 							<i class="bi bi-heart"></i> 좋아요 11개
 						</div>
 						<div class="p-2">
-							<b>dulumary</b> 녹차 밭 사진이 너무 예뻐요!!
+							<b>${post.loginId }</b> ${post.content }
 						</div>
 						
 						<!--  댓글 박스 -->
@@ -66,37 +68,7 @@
 					</div>
 					<!--  / 게시글 카드 -->
 					
-					<!--  게시글 카드  -->
-					<div class="card mt-3">
-						<div class="d-flex justify-content-between p-2">
-							<div>dulumary</div>
-							<div><i class="bi bi-three-dots"></i></div>
-						</div>
-						<div>
-							<img width="100%" src="https://cdn.pixabay.com/photo/2023/03/18/16/08/mountain-7860877_960_720.jpg">
-						</div>
-						<div class="p-2">
-							<i class="bi bi-heart"></i> 좋아요 11개
-						</div>
-						<div class="p-2">
-							<b>dulumary</b> 녹차 밭 사진이 너무 예뻐요!!
-						</div>
-						
-						<!--  댓글 박스 -->
-						<div class="small">
-							<div class="p-2">댓글</div>
-							
-							<div class="px-2"><b>hagulu</b> 진짜 예쁘네요</div>
-							<div class="px-2"><b>bada</b> 저도 가보고 싶어요</div>
-							
-							<div class="d-flex mt-2">
-								<input type="text" class="form-control">
-								<button type="button" class="btn btn-info">게시</button>
-							</div>
-						</div>
-						<!-- / 댓글 박스 -->
-					</div>
-					<!--  / 게시글 카드 -->
+					</c:forEach>
 					
 				</div>
 				<!-- / 게시글 카드 리스트 -->
@@ -108,6 +80,60 @@
 	
 	
 	</div>
+	
+	<script>
+		$(document).ready(function() {
+			
+			$("#imageIcon").on("click", function() {
+				// file input을 클릭한 동작을 수행한다. 
+				$("#fileInput").click();
+			});
+			
+			$("#uploadBtn").on("click", function() {
+				let content = $("#contentInput").val();
+				let file = $("#fileInput")[0];
+				
+				if(content == "") {
+					alert("내용을 입력하세요");
+					return;
+				}
+				
+				// 파일이 선택되지 않았을 경우의 유효성 검사
+				if(file.files.length == 0) {
+					alert("파일을 선택하세요");
+					return ;
+				}
+				
+				var formData = new FormData();
+				formData.append("content", content);
+				formData.append("file", file.files[0]);
+				
+				$.ajax({
+					type:"post"
+					, url:"/post/create"
+					, data:formData
+					, enctype:"multipart/form-data"
+					, processData:false
+					, contentType:false
+					, success:function(data) {
+						if(data.result == "success") {
+							location.reload();
+						} else {
+							alert("업로드 실패");
+						}
+						
+					}
+					, error:function() {
+						alert("업로드 에러")
+					}
+				});
+				
+				
+				
+			});
+		});
+	
+	</script>
 	
 </body>
 </html>
