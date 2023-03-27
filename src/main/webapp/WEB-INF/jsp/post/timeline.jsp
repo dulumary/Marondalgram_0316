@@ -46,7 +46,8 @@
 							<img width="100%" src="${post.imagePath }">
 						</div>
 						<div class="p-2">
-							<i class="bi bi-heart"></i> 좋아요 11개
+							<i class="bi bi-heart like-icon" data-post-id="${post.id }"></i> 
+							좋아요 ${post.likeCount }개
 						</div>
 						<div class="p-2">
 							<b>${post.loginId }</b> ${post.content }
@@ -83,6 +84,31 @@
 	
 	<script>
 		$(document).ready(function() {
+			
+			$(".like-icon").on("click", function() {
+				
+				let postId = $(this).data("post-id");
+				
+				
+				$.ajax({
+					type:"get"
+					, url:"/post/like"
+					, data:{"postId":postId}
+					, success:function(data) {
+						
+						if(data.result == "success") {
+							location.reload();
+						} else {
+							alert("좋아요 실패");
+						}
+					}
+					, error:function() {
+						alert("좋아요 에러");
+					}
+				});
+				
+				
+			});
 			
 			$("#imageIcon").on("click", function() {
 				// file input을 클릭한 동작을 수행한다. 

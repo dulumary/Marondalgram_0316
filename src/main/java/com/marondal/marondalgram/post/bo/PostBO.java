@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.marondal.marondalgram.common.FileManagerService;
 import com.marondal.marondalgram.post.dao.PostDAO;
+import com.marondal.marondalgram.post.like.bo.LikeBO;
 import com.marondal.marondalgram.post.model.Post;
 import com.marondal.marondalgram.post.model.PostDetail;
 import com.marondal.marondalgram.user.bo.UserBO;
@@ -22,6 +23,9 @@ public class PostBO {
 	
 	@Autowired
 	private UserBO userBO;
+	
+	@Autowired
+	private LikeBO likeBO;
 	
 	
 	public int addPost(int userId, String content, MultipartFile file) {
@@ -42,6 +46,7 @@ public class PostBO {
 		for(Post post:postList) {
 			
 			User user = userBO.getUserById(post.getUserId());
+			int likeCount = likeBO.getLikeCount(post.getId());
 			
 			PostDetail postDetail = new PostDetail();
 			
@@ -50,6 +55,7 @@ public class PostBO {
 			postDetail.setImagePath(post.getImagePath());
 			postDetail.setUserId(post.getUserId());
 			postDetail.setLoginId(user.getLoginId());
+			postDetail.setLikeCount(likeCount);
 			
 			postDetailList.add(postDetail);
 			
