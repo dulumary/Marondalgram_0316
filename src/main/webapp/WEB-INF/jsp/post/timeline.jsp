@@ -69,7 +69,7 @@
 							<div class="px-2"><b>bada</b> 저도 가보고 싶어요</div>
 							
 							<div class="d-flex mt-2">
-								<input type="text" class="form-control comment-input">
+								<input type="text" class="form-control" id="commentInput${post.id }">
 								<button type="button" class="btn btn-info comment-btn" data-post-id="${post.id }">게시</button>
 							</div>
 						</div>
@@ -96,9 +96,29 @@
 			$(".comment-btn").on("click", function() {
 				let postId = $(this).data("post-id");
 				
+				// 버튼에 매칭된 input 태그를 객체화 시켜라!!
 				
+				// 버튼 바로 앞 태그를 객체화 한다 
+				//let comment = $(this).prev().val();
+				let comment = $("#commentInput" + postId).val();
 				
-				alert(comment);
+				$.ajax({
+					type:"post"
+					, url:"/post/comment/create"
+					, data:{"postId":postId, "content":comment}
+					, success:function(data) {
+						if(data.result == "success") {
+							location.reload();
+						} else {
+							alert("댓글 쓰기 실패");
+						}
+						
+					}
+					, error:function() {
+						alert("댓글 쓰기 에러");
+					}
+				});
+				
 			});
 			
 			$(".unlike-icon").on("click", function() {
