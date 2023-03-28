@@ -36,7 +36,7 @@ public class PostBO {
 		
 	}
 	
-	public List<PostDetail> getPostList() {
+	public List<PostDetail> getPostList(int userId) {
 		
 		// 컨트롤러에서 원하는 (jsp에서 사용할) 데이터 형태를 만들어 준다. 
 		List<Post> postList = postDAO.selectPostList();
@@ -47,6 +47,7 @@ public class PostBO {
 			
 			User user = userBO.getUserById(post.getUserId());
 			int likeCount = likeBO.getLikeCount(post.getId());
+			boolean isLike = likeBO.isLike(userId, post.getId());
 			
 			PostDetail postDetail = new PostDetail();
 			
@@ -56,6 +57,7 @@ public class PostBO {
 			postDetail.setUserId(post.getUserId());
 			postDetail.setLoginId(user.getLoginId());
 			postDetail.setLikeCount(likeCount);
+			postDetail.setLike(isLike);
 			
 			postDetailList.add(postDetail);
 			

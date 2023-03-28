@@ -19,5 +19,23 @@ public class LikeBO {
 	public int getLikeCount(int postId) {
 		return likeDAO.selectCountLike(postId);
 	}
+	
+	public boolean isLike(int userId, int postId) {
+		
+		int count = likeDAO.selectCountLikeByUserId(userId, postId);
+		
+		// 조회된 개수가 0개면 좋아요 안함
+		if(count == 0) {
+			return false;
+		} else {		// 조회된 개수가 1이상이면 좋아요 
+		
+			return true;
+		}
+		
+	}
+	
+	public int unLike(int userId, int postId) {
+		return likeDAO.deleteLike(userId, postId);
+	}
 
 }

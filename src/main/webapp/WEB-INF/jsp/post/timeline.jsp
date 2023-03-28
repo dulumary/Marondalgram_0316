@@ -46,7 +46,15 @@
 							<img width="100%" src="${post.imagePath }">
 						</div>
 						<div class="p-2">
-							<i class="bi bi-heart like-icon" data-post-id="${post.id }"></i> 
+							<c:choose>
+								<c:when test="${post.like }">
+									<i class="bi bi-heart-fill text-danger unlike-icon" data-post-id="${post.id }"></i> 
+								</c:when>
+								<c:otherwise>
+									<i class="bi bi-heart like-icon" data-post-id="${post.id }"></i>
+								</c:otherwise>
+							</c:choose>
+							
 							좋아요 ${post.likeCount }개
 						</div>
 						<div class="p-2">
@@ -61,8 +69,8 @@
 							<div class="px-2"><b>bada</b> 저도 가보고 싶어요</div>
 							
 							<div class="d-flex mt-2">
-								<input type="text" class="form-control">
-								<button type="button" class="btn btn-info">게시</button>
+								<input type="text" class="form-control comment-input">
+								<button type="button" class="btn btn-info comment-btn" data-post-id="${post.id }">게시</button>
 							</div>
 						</div>
 						<!-- / 댓글 박스 -->
@@ -84,6 +92,37 @@
 	
 	<script>
 		$(document).ready(function() {
+			
+			$(".comment-btn").on("click", function() {
+				let postId = $(this).data("post-id");
+				
+				
+				
+				alert(comment);
+			});
+			
+			$(".unlike-icon").on("click", function() {
+				let postId = $(this).data("post-id");
+				
+				$.ajax({
+					type:"get"
+					, url:"/post/unlike"
+					, data:{"postId":postId}
+					, success:function(data) {
+						
+						if(data.result == "success") {
+							location.reload();
+						} else {
+							alert("좋아요 취소 실패");
+						}
+						
+					}
+					, error:function() {
+						alert("좋아요 취소 에러");
+					}
+				});
+				
+			});
 			
 			$(".like-icon").on("click", function() {
 				

@@ -35,6 +35,26 @@
 	
 	</select>
 	
+	<select id="selectCountLikeByUserId" parameterType="map" resultType="int">
+		SELECT 
+			count(1)
+		FROM
+			`like`
+		WHERE
+			`userId` = #{userId}
+			AND `postId` = #{postId}
+	
+	</select>
+	
+	<delete id="deleteLike" parameterType="map">
+		DELETE FROM 
+			`like`
+		WHERE 
+			`userId` = #{userId}
+			AND `postId` = #{postId}
+	
+	</delete>
+	
 	
 
 
