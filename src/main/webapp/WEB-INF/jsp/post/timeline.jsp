@@ -65,8 +65,9 @@
 						<div class="small">
 							<div class="p-2">댓글</div>
 							
-							<div class="px-2"><b>hagulu</b> 진짜 예쁘네요</div>
-							<div class="px-2"><b>bada</b> 저도 가보고 싶어요</div>
+							<c:forEach var="comment" items="${post.commentList }">
+							<div class="px-2"><b>${comment.userLoginId }</b> ${comment.content }</div>
+							</c:forEach>
 							
 							<div class="d-flex mt-2">
 								<input type="text" class="form-control" id="commentInput${post.id }">

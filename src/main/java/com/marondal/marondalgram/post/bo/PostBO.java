@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.marondal.marondalgram.common.FileManagerService;
+import com.marondal.marondalgram.post.comment.bo.CommentBO;
+import com.marondal.marondalgram.post.comment.model.CommentDetail;
 import com.marondal.marondalgram.post.dao.PostDAO;
 import com.marondal.marondalgram.post.like.bo.LikeBO;
 import com.marondal.marondalgram.post.model.Post;
@@ -26,6 +28,9 @@ public class PostBO {
 	
 	@Autowired
 	private LikeBO likeBO;
+	
+	@Autowired
+	private CommentBO commentBO;
 	
 	
 	public int addPost(int userId, String content, MultipartFile file) {
@@ -48,6 +53,7 @@ public class PostBO {
 			User user = userBO.getUserById(post.getUserId());
 			int likeCount = likeBO.getLikeCount(post.getId());
 			boolean isLike = likeBO.isLike(userId, post.getId());
+			List<CommentDetail> commentList = commentBO.getCommentList(post.getId());
 			
 			PostDetail postDetail = new PostDetail();
 			
@@ -58,6 +64,7 @@ public class PostBO {
 			postDetail.setLoginId(user.getLoginId());
 			postDetail.setLikeCount(likeCount);
 			postDetail.setLike(isLike);
+			postDetail.setCommentList(commentList);
 			
 			postDetailList.add(postDetail);
 			
