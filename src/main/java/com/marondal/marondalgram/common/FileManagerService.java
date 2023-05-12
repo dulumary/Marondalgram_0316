@@ -6,11 +6,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
+
 
 public class FileManagerService {
 	
-	public static final String FILE_UPLOAD_PATH = "D:\\김인규쌤\\web_1116\\springProject\\upload\\marondalgram\\images"; 
+	public static final String FILE_UPLOAD_PATH = "D:\\김인규쌤\\web_1116\\springProject\\upload\\marondalgram\\images";
+	
+	private static Logger logger = LoggerFactory.getLogger(FileManagerService.class);
 	
 	public static String saveFile(int userId, MultipartFile file) {
 		
@@ -55,6 +60,51 @@ public class FileManagerService {
 		// http://localhost:8080/images/2_39i980139/test.png
 		
 		return "/images" + directoryName + file.getOriginalFilename();
+		
+	}
+	
+	// 파일 삭제 기능
+	public static boolean removeFile(String filePath) { // /images/2_1679477699709/blackbird-g9b42bb68b_640.jpg
+		
+		if(filePath == null) {
+			logger.info("삭제 대상 파일 없음");
+			return false;
+		}
+		// 실제 파일 저장 경로 찾기 
+		// /images 를 제거하고, 나머지 부분을 FILE_UPLOAD_PATH에 이어 붙인다. 
+		// D:\\김인규쌤\\web_1116\\springProject\\upload\\memo\\image/2_1679477699709/blackbird-g9b42bb68b_640.jpg
+		
+		String fullFilePath = FILE_UPLOAD_PATH + filePath.replace("/images", "");
+		Path path = Paths.get(fullFilePath);
+		
+		// 파일이 존재하는지 
+		if(Files.exists(path)) {
+			
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				
+				logger.error("removeFile : 파일 삭제 에러 " + fullFilePath);
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		// 디렉토리 제거
+		Path dirPath = path.getParent();
+		
+		if(Files.exists(dirPath)) {
+			try {
+				Files.delete(dirPath);
+			} catch (IOException e) {
+				logger.error("removeFile : 디렉토리 삭제 에러 " + fullFilePath);
+				e.printStackTrace();
+				return false;
+			}
+			
+		}
+		
+		return true;
 		
 	}
 

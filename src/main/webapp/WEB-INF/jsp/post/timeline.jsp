@@ -40,7 +40,9 @@
 					<div class="card mt-3">
 						<div class="d-flex justify-content-between p-2">
 							<div>${post.loginId }</div>
-							<div><i class="bi bi-three-dots"></i></div>
+							<c:if test="${userId eq  post.userId}">
+								<div><i class="bi bi-three-dots more-icon" data-post-id="${post.id }" data-toggle="modal" data-target="#moreModal"></i></div>
+							</c:if>
 						</div>
 						<div>
 							<img width="100%" src="${post.imagePath }">
@@ -90,9 +92,53 @@
 	
 	
 	</div>
-	
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="moreModal" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	     
+	      <div class="modal-body text-center">
+	      	<a href="#" id="deleteBtn">삭제하기</a>
+	      </div>
+	      
+	    </div>
+	  </div>
+	</div>
+
 	<script>
 		$(document).ready(function() {
+			
+			$("#deleteBtn").on("click", function() {
+				let postId = $(this).data("post-id");
+				
+				$.ajax({
+					type:"get"
+					, url:"/post/delete"
+					, data:{"postId":postId}
+					, success:function(data) {
+						if(data.result == "success") {
+							location.reload();
+						} else {
+							alert("삭제 실패");
+						}
+						
+					}
+					, error:function() {
+						alert("삭제 에러");
+					}
+				});
+				
+			});
+			
+			$(".more-icon").on("click", function() {
+				let postId = $(this).data("post-id");
+				
+				// data-post-id="postId"
+				$("#deleteBtn").data("post-id", postId);
+				
+			});
 			
 			$(".comment-btn").on("click", function() {
 				let postId = $(this).data("post-id");
